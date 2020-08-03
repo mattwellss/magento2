@@ -25,8 +25,12 @@ class Aggregate implements CommandLoaderInterface
     }
 
     /**
+     * Intiantiate and return the command referred to by $name within the internal command loaders.
+     * If $name does not refer to a command, throw a CommandNotFoundException.
+     *
      * @param string $name
      * @return \Symfony\Component\Console\Command\Command
+     * @throws CommandNotFoundException
      */
     public function get($name)
     {
@@ -40,6 +44,8 @@ class Aggregate implements CommandLoaderInterface
     }
 
     /**
+     * Return whether $name refers to a command within the internal command loaders.
+     *
      * @param string $name
      * @return bool
      */
@@ -55,6 +61,8 @@ class Aggregate implements CommandLoaderInterface
     }
 
     /**
+     * Return an array of all the command names provided by the internal command loaders.
+     *
      * @return string[]
      */
     public function getNames()
