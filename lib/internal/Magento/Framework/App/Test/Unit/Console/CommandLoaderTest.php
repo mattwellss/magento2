@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 namespace Magento\Framework\App\Test\Unit\Console;
 
 use Magento\Framework\Console\CommandLoader;
@@ -18,13 +21,19 @@ class CommandLoaderTest extends TestCase
         $this->objectManagerMock = $this->getMockBuilder(ObjectManagerInterface::class)->getMock();
     }
 
+    /**
+     * Test that the command loader, when provided zero commands, does not have a command named "foo"
+     */
     public function testHasWithZeroCommands()
     {
         $subj = new CommandLoader($this->objectManagerMock, []);
 
-        static::assertFalse($subj->has('foo'));
+        $this->assertFalse($subj->has('foo'));
     }
 
+    /**
+     * Test that the command loader will return true when provided with a command "foo"
+     */
     public function testHasWithAtLeastOneCommand()
     {
         $subj = new CommandLoader($this->objectManagerMock, [
@@ -34,9 +43,12 @@ class CommandLoaderTest extends TestCase
             ]
         ]);
 
-        static::assertTrue($subj->has('foo'));
+        $this->assertTrue($subj->has('foo'));
     }
 
+    /**
+     * Test that the command loader will throw a CommandNotFoundException when it does not have the requested command
+     */
     public function testGetWithZeroCommands()
     {
         $subj = new CommandLoader($this->objectManagerMock, []);
@@ -46,6 +58,9 @@ class CommandLoaderTest extends TestCase
         $subj->get('foo');
     }
 
+    /**
+     * Test that the command loader returns a command when one it has is requested
+     */
     public function testGetWithAtLeastOneCommand()
     {
         $this->objectManagerMock
@@ -60,16 +75,22 @@ class CommandLoaderTest extends TestCase
             ]
         ]);
 
-        static::assertInstanceOf(FooCommand::class, $subj->get('foo'));
+        $this->assertInstanceOf(FooCommand::class, $subj->get('foo'));
     }
 
+    /**
+     * Test that the command loader will return an empty "names" array when it has none
+     */
     public function testGetNamesWithZeroCommands()
     {
         $subj = new CommandLoader($this->objectManagerMock, []);
 
-        static::assertEquals([], $subj->getNames());
+        $this->assertEquals([], $subj->getNames());
     }
 
+    /**
+     * Test that the command loader returns an array of its command names when `getNames` is called
+     */
     public function testGetNames()
     {
         $subj = new CommandLoader($this->objectManagerMock, [
@@ -83,7 +104,7 @@ class CommandLoaderTest extends TestCase
             ]
         ]);
 
-        static::assertEquals(['foo', 'bar'], $subj->getNames());
+        $this->assertEquals(['foo', 'bar'], $subj->getNames());
     }
 }
 

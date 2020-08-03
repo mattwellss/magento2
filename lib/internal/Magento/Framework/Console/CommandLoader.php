@@ -34,6 +34,9 @@ class CommandLoader implements CommandLoaderInterface
     }
 
     /**
+     * Using the ObjectManager, instantiate the requested command.
+     * If the command name is not configured, throw a CommandNotFoundException.
+     *
      * @param string $name
      * @return \Symfony\Component\Console\Command\Command
      * @throws CommandNotFoundException
@@ -47,6 +50,8 @@ class CommandLoader implements CommandLoaderInterface
     }
 
     /**
+     * Return whether the requested $name is present in the commands array
+     *
      * @param string $name
      * @return bool
      */
@@ -56,6 +61,8 @@ class CommandLoader implements CommandLoaderInterface
     }
 
     /**
+     * Return an array of the available command names
+     *
      * @return string[]
      */
     public function getNames()
