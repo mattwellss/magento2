@@ -27,7 +27,7 @@ class CommandLoader implements CommandLoaderInterface
     /** @var ObjectManagerInterface */
     private $objectManager;
 
-    public function __construct(ObjectManagerInterface $objectManager, array $commands)
+    public function __construct(ObjectManagerInterface $objectManager, array $commands = [])
     {
         $this->objectManager = $objectManager;
         $this->commands = array_combine(array_column($commands, 'name'), array_column($commands, 'class'));
