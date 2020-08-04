@@ -11,6 +11,8 @@ namespace Magento\Setup\Console\Command;
  */
 class MaintenanceEnableCommand extends AbstractMaintenanceCommand
 {
+    const NAME = 'maintenance:enable';
+
     /**
      * Initialization of the command
      *
@@ -18,7 +20,7 @@ class MaintenanceEnableCommand extends AbstractMaintenanceCommand
      */
     protected function configure()
     {
-        $this->setName('maintenance:enable')->setDescription('Enables maintenance mode');
+        $this->setName(self::NAME)->setDescription('Enables maintenance mode');
         parent::configure();
     }
 

@@ -19,6 +19,7 @@ use Symfony\Component\Console\Question\Question;
  */
 class ConfigSetCommand extends AbstractSetupCommand
 {
+    const NAME = 'setup:config:set';
     /**
      * @var ConfigModel
      */
@@ -63,7 +64,7 @@ class ConfigSetCommand extends AbstractSetupCommand
     {
         $options = $this->configModel->getAvailableOptions();
 
-        $this->setName('setup:config:set')
+        $this->setName(self::NAME)
             ->setDescription('Creates or modifies the deployment configuration')
             ->setDefinition($options);
 

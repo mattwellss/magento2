@@ -20,6 +20,7 @@ use Symfony\Component\Console\Question\Question;
  */
 class AdminUserCreateCommand extends AbstractSetupCommand
 {
+    const NAME = 'admin:user:create';
     /**
      * @var InstallerFactory
      */
@@ -48,7 +49,7 @@ class AdminUserCreateCommand extends AbstractSetupCommand
      */
     protected function configure()
     {
-        $this->setName('admin:user:create')
+        $this->setName(self::NAME)
             ->setDescription('Creates an administrator')
             ->setDefinition($this->getOptionsList());
         parent::configure();

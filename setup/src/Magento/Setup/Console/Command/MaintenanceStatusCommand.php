@@ -16,6 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class MaintenanceStatusCommand extends AbstractSetupCommand
 {
+    const NAME = 'maintenance:status';
     /**
      * @var MaintenanceMode $maintenanceMode
      */
@@ -39,7 +40,7 @@ class MaintenanceStatusCommand extends AbstractSetupCommand
      */
     protected function configure()
     {
-        $this->setName('maintenance:status')
+        $this->setName(self::NAME)
             ->setDescription('Displays maintenance mode status');
         parent::configure();
     }

@@ -21,6 +21,7 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class ModuleStatusCommand extends AbstractSetupCommand
 {
+    const NAME = 'module:status';
     /**
      * Object manager provider
      *
@@ -44,7 +45,7 @@ class ModuleStatusCommand extends AbstractSetupCommand
      */
     protected function configure()
     {
-        $this->setName('module:status')
+        $this->setName(self::NAME)
             ->setDescription('Displays status of modules')
             ->addArgument('module', InputArgument::OPTIONAL, 'Optional module name')
             ->addOption('enabled', null, null, 'Print only enabled modules')
