@@ -13,7 +13,7 @@ use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
 /**
- * Class CommandList contains predefined list of commands for Setup.
+ * Class CommandLoader contains predefined list of commands for Setup.
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
