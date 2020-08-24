@@ -103,16 +103,7 @@ class Cli extends Console\Application
         parent::__construct($name, $version);
         $this->serviceManager->setService(\Symfony\Component\Console\Application::class, $this);
         $this->logger = $this->objectManager->get(LoggerInterface::class);
-
-        $commandLoaders = [];
-        if (class_exists(SetupCommandLoader::class)) {
-            $commandLoaders[] = new SetupCommandLoader($this->serviceManager);
-        }
-        $commandLoaders[] = $this->objectManager->create(CommandLoader::class);
-
-        $this->setCommandLoader($this->objectManager->create(Aggregate::class, [
-            'commandLoaders' => $commandLoaders
-        ]));
+        $this->setCommandLoader($this->getCommandLoader());
     }
 
     /**
@@ -262,5 +253,22 @@ class Cli extends Console\Application
         }
 
         return array_merge_recursive($config, $params);
+    }
+
+    /**
+     * @throws \LogicException
+     * @throws \BadMethodCallException
+     */
+    private function getCommandLoader(): Console\CommandLoader\CommandLoaderInterface
+    {
+        $commandLoaders = [];
+        if (class_exists(SetupCommandLoader::class)) {
+            $commandLoaders[] = new SetupCommandLoader($this->serviceManager);
+        }
+        $commandLoaders[] = $this->objectManager->create(CommandLoader::class);
+
+        return $this->objectManager->create(Aggregate::class, [
+            'commandLoaders' => $commandLoaders
+        ]);
     }
 }
