@@ -37,6 +37,7 @@ class DependencyTest extends \PHPUnit\Framework\TestCase
             'Framework',
             'SomeModule',
             'ModuleName',
+            'Setup\Console\CommandLoader',
             'Setup\Console\CompilerPreparation',
             'Setup\Model\ObjectManagerProvider',
             'Setup\Mvc\Bootstrap\InitParamListener',
