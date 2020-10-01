@@ -256,6 +256,8 @@ class Cli extends Console\Application
     }
 
     /**
+     * Generate and return the Command Loader
+     *
      * @throws \LogicException
      * @throws \BadMethodCallException
      */
