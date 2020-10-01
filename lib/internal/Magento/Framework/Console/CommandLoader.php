@@ -27,6 +27,10 @@ class CommandLoader implements CommandLoaderInterface
     /** @var ObjectManagerInterface */
     private $objectManager;
 
+    /**
+     * @param ObjectManagerInterface $objectManager
+     * @param array $commands
+     */
     public function __construct(ObjectManagerInterface $objectManager, array $commands = [])
     {
         $this->objectManager = $objectManager;
@@ -35,6 +39,7 @@ class CommandLoader implements CommandLoaderInterface
 
     /**
      * Using the ObjectManager, instantiate the requested command.
+     *
      * If the command name is not configured, throw a CommandNotFoundException.
      *
      * @param string $name
