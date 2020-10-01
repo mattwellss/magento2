@@ -77,6 +77,8 @@ class CommandLoader implements CommandLoaderInterface
     }
 
     /**
+     * Generate a symfony console command with the laminas service manager
+     *
      * @param string $name
      * @return SymfonyCommand
      */
@@ -92,6 +94,8 @@ class CommandLoader implements CommandLoaderInterface
     }
 
     /**
+     * Return whether the command loader has a command configured for given $name
+     *
      * @param string $name
      * @return bool
      */
@@ -101,6 +105,8 @@ class CommandLoader implements CommandLoaderInterface
     }
 
     /**
+     * Return the list of configured commands for the command loader
+     *
      * @return string[]
      */
     public function getNames()
