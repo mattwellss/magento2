@@ -100,7 +100,7 @@ class CommandLoaderTest extends TestCase
             ],
             [
                 'name' => 'bar',
-                'class' => BarCommand::class
+                'class' => 'BarCommand'
             ]
         ]);
 
