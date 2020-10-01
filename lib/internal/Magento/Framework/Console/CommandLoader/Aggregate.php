@@ -19,6 +19,9 @@ class Aggregate implements CommandLoaderInterface
     /** @var CommandLoaderInterface[] */
     private $commandLoaders;
 
+    /**
+     * @param array $commandLoaders
+     */
     public function __construct($commandLoaders = [])
     {
         $this->commandLoaders = $commandLoaders;
@@ -26,6 +29,7 @@ class Aggregate implements CommandLoaderInterface
 
     /**
      * Intiantiate and return the command referred to by $name within the internal command loaders.
+     *
      * If $name does not refer to a command, throw a CommandNotFoundException.
      *
      * @param string $name
