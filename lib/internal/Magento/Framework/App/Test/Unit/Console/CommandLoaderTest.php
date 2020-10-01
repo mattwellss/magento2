@@ -108,6 +108,7 @@ class CommandLoaderTest extends TestCase
     }
 }
 
+// phpcs:ignore PSR1.Classes.ClassDeclaration
 class FooCommand extends Command
 {
 }
