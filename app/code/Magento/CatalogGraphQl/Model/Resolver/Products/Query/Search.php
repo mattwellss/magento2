@@ -12,6 +12,9 @@ use Magento\CatalogGraphQl\Model\Resolver\Products\DataProvider\ProductSearch;
 use Magento\CatalogGraphQl\Model\Resolver\Products\SearchResult;
 use Magento\CatalogGraphQl\Model\Resolver\Products\SearchResultFactory;
 use Magento\Framework\Api\Search\SearchCriteriaInterface;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
+use Magento\Framework\GraphQl\Query\Resolver\ArgumentsProcessorInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\GraphQl\Model\Query\ContextInterface;
 use Magento\Search\Api\SearchInterface;
@@ -43,6 +46,11 @@ class Search implements ProductQueryInterface
     private $fieldSelection;
 
     /**
+     * @var ArgumentsProcessorInterface
+     */
+    private $argsSelection;
+
+    /**
      * @var ProductSearch
      */
     private $productsProvider;
@@ -59,6 +67,7 @@ class Search implements ProductQueryInterface
      * @param FieldSelection $fieldSelection
      * @param ProductSearch $productsProvider
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param ArgumentsProcessorInterface|null $argsSelection
      */
     public function __construct(
         SearchInterface $search,
@@ -66,7 +75,8 @@ class Search implements ProductQueryInterface
         PageSizeProvider $pageSize,
         FieldSelection $fieldSelection,
         ProductSearch $productsProvider,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        ArgumentsProcessorInterface $argsSelection = null
     ) {
         $this->search = $search;
         $this->searchResultFactory = $searchResultFactory;
@@ -74,6 +84,8 @@ class Search implements ProductQueryInterface
         $this->fieldSelection = $fieldSelection;
         $this->productsProvider = $productsProvider;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->argsSelection = $argsSelection ?: ObjectManager::getInstance()
+            ->get(ArgumentsProcessorInterface::class);
     }
 
     /**
@@ -83,13 +95,13 @@ class Search implements ProductQueryInterface
      * @param ResolveInfo $info
      * @param ContextInterface $context
      * @return SearchResult
+     * @throws GraphQlInputException
      */
     public function getResult(
         array $args,
         ResolveInfo $info,
         ContextInterface $context
     ): SearchResult {
-        $queryFields = $this->fieldSelection->getProductsFieldSelection($info);
         $searchCriteria = $this->buildSearchCriteria($args, $info);
 
         $realPageSize = $searchCriteria->getPageSize();
@@ -103,7 +115,12 @@ class Search implements ProductQueryInterface
         //Address limitations of sort and pagination on search API apply original pagination from GQL query
         $searchCriteria->setPageSize($realPageSize);
         $searchCriteria->setCurrentPage($realCurrentPage);
-        $searchResults = $this->productsProvider->getList($searchCriteria, $itemsResults, $queryFields, $context);
+        $searchResults = $this->productsProvider->getList(
+            $searchCriteria,
+            $itemsResults,
+            $this->fieldSelection->getProductsFieldSelection($info),
+            $context
+        );
 
         $totalPages = $realPageSize ? ((int)ceil($searchResults->getTotalCount() / $realPageSize)) : 0;
 
@@ -137,7 +154,8 @@ class Search implements ProductQueryInterface
     {
         $productFields = (array)$info->getFieldSelection(1);
         $includeAggregations = isset($productFields['filters']) || isset($productFields['aggregations']);
-        $searchCriteria = $this->searchCriteriaBuilder->build($args, $includeAggregations);
+        $processedArgs = $this->argsSelection->process((string) $info->fieldName, $args);
+        $searchCriteria = $this->searchCriteriaBuilder->build($processedArgs, $includeAggregations);
 
         return $searchCriteria;
     }

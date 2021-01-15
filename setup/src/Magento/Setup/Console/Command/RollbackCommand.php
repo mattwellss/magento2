@@ -81,7 +81,7 @@ class RollbackCommand extends AbstractSetupCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     protected function configure()
     {
@@ -112,7 +112,7 @@ class RollbackCommand extends AbstractSetupCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -123,8 +123,9 @@ class RollbackCommand extends AbstractSetupCommand
             // we must have an exit code higher than zero to indicate something was wrong
             return \Magento\Framework\Console\Cli::RETURN_FAILURE;
         }
-        $returnValue = $this->maintenanceModeEnabler->executeInMaintenanceMode(
-            function () use ($input, $output, &$returnValue) {
+
+        return $this->maintenanceModeEnabler->executeInMaintenanceMode(
+            function () use ($input, $output) {
                 try {
                     $helper = $this->getHelper('question');
                     $question = new ConfirmationQuestion(
@@ -153,7 +154,6 @@ class RollbackCommand extends AbstractSetupCommand
             $output,
             false
         );
-        return $returnValue;
     }
 
     /**
