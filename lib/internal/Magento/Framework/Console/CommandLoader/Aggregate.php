@@ -22,7 +22,7 @@ class Aggregate implements CommandLoaderInterface
     /**
      * @param array $commandLoaders
      */
-    public function __construct($commandLoaders = [])
+    public function __construct(array $commandLoaders = [])
     {
         $this->commandLoaders = $commandLoaders;
     }
@@ -36,7 +36,7 @@ class Aggregate implements CommandLoaderInterface
      * @return \Symfony\Component\Console\Command\Command
      * @throws CommandNotFoundException
      */
-    public function get($name)
+    public function get($name): \Symfony\Component\Console\Command\Command
     {
         foreach ($this->commandLoaders as $commandLoader) {
             if ($commandLoader->has($name)) {
@@ -53,7 +53,7 @@ class Aggregate implements CommandLoaderInterface
      * @param string $name
      * @return bool
      */
-    public function has($name)
+    public function has($name): bool
     {
         foreach ($this->commandLoaders as $commandLoader) {
             if ($commandLoader->has($name)) {
@@ -69,7 +69,7 @@ class Aggregate implements CommandLoaderInterface
      *
      * @return string[]
      */
-    public function getNames()
+    public function getNames(): array
     {
         return array_merge([], ...array_map(function (CommandLoaderInterface $commandLoader) {
             return $commandLoader->getNames();

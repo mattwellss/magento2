@@ -77,8 +77,9 @@ class CommandLoader implements CommandLoaderInterface
      *
      * @param string $name
      * @return SymfonyCommand
+     * @throws CommandNotFoundException
      */
-    public function get($name)
+    public function get($name): SymfonyCommand 
     {
         if ($this->has($name)) {
             /** @var SymfonyCommand $command */
@@ -95,7 +96,7 @@ class CommandLoader implements CommandLoaderInterface
      * @param string $name
      * @return bool
      */
-    public function has($name)
+    public function has($name): bool
     {
         return isset($this->commands[$name]);
     }
@@ -105,7 +106,7 @@ class CommandLoader implements CommandLoaderInterface
      *
      * @return string[]
      */
-    public function getNames()
+    public function getNames(): array
     {
         return array_keys($this->commands);
     }
