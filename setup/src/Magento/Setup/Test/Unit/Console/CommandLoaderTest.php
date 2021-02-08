@@ -32,8 +32,12 @@ class CommandLoaderTest extends TestCase
 
     public function testServiceManagerIsUsedToInitializeCommands()
     {
+        $command = $this->getMockBuilder(\Symfony\Component\Console\Command\Command::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->serviceManager->expects($this->once())
-            ->method('get');
+            ->method('get')
+            ->willReturn($command);
 
         $firstCommandName = current($this->commandLoader->getNames());
         $this->commandLoader->get($firstCommandName);
